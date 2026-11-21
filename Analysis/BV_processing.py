@@ -16,14 +16,35 @@ from scipy.integrate import quad
 from plot_utils import check_dataframe, save_or_show
 
 
+def format_participant_id(value, prefix='P'):
+    """
+    Convert a participant identifier to the published format: 'P01' (patients) or 'C01' (controls).
+
+    Accepts integers/floats (1, 1.0), numeric strings ('1', '001'), BIDS/folder names
+    ('sub-001', 'sub_001') and already-formatted IDs ('P01', 'c1'). An ID that already
+    carries a P/C letter keeps it; `prefix` is only used for bare numbers. Anything
+    else (e.g. 'template', NaN) is returned unchanged.
+    """
+    if value is None or (isinstance(value, float) and np.isnan(value)):
+        return value
+    if isinstance(value, (int, np.integer)) or (isinstance(value, (float, np.floating)) and float(value).is_integer()):
+        return f"{prefix}{int(value):02d}"
+    m = re.fullmatch(r'\s*(?:sub[-_]?)?([PCpc])?0*(\d+)\s*', str(value))
+    if not m:
+        return value
+    letter = m.group(1).upper() if m.group(1) else prefix
+    return f"{letter}{int(m.group(2)):02d}"
+
+
 # Function to process each file and extract ID
-def process_file(f, id_column='ID'):
+def process_file(f, id_column='ID', id_prefix='P'):
     """
     Process a single file to extract its content and add an ID.
 
     Parameters:
         f (str): The file path.
         id_column (str): The name of the column to store the extracted ID (default is 'ID').
+        id_prefix (str): 'P' for patients, 'C' for controls; the stored ID is e.g. 'P01'.
 
     Returns:
         pd.DataFrame: DataFrame containing the data from the file with an added ID column.
@@ -48,7 +69,7 @@ def process_file(f, id_column='ID'):
         # `f` is a full path, not just a filename, so earlier path segments (e.g. the
         # subject folder matched by `folder_head`) also contribute numeric matches;
         # the participant ID is specifically the third \d+ match, not the first.
-        ID = int(id_matches[2])  # Extract the ID number from the file name
+        ID = format_participant_id(int(id_matches[2]), id_prefix)  # e.g. 'P01' / 'C01'
         df[id_column] = ID  # Add the ID to the DataFrame
 
         return df
@@ -62,7 +83,8 @@ def process_file(f, id_column='ID'):
 # Function to process all files in a directory based on a pattern
 def process_files_total(base_path, pattern_file='cutoff', refined=False, remove_dirs=None, 
                         eye_column='Eye', stage_column='stage', amb_column='amb', 
-                        position_column='Position', date_column='Date_time', amb_eye_column='AMB_eye', folder_head='sub_*'):
+                        position_column='Position', date_column='Date_time', amb_eye_column='AMB_eye', folder_head='sub_*',
+                        id_prefix='P'):
     """
     Process all files in the specified directory and return concatenated results.
 
@@ -77,6 +99,7 @@ def process_files_total(base_path, pattern_file='cutoff', refined=False, remove_
         position_column (str): Name of the 'Position' column (default is 'Position').
         date_column (str): Name of the 'Date_time' column (default is 'Date_time').
         amb_eye_column (str): Name of the 'AMB_eye' column for threshold calculations (default is 'AMB_eye').
+        id_prefix (str): 'P' for patients (default), 'C' for controls.
 
     Returns:
         tuple: DataFrames containing processed data and thresholds.
@@ -114,7 +137,7 @@ def process_files_total(base_path, pattern_file='cutoff', refined=False, remove_
         # Apply the process function to all files
         result = []
         for f in all_cutoff_files:
-            processed_file = process_file(f, id_column='ID')
+            processed_file = process_file(f, id_column='ID', id_prefix=id_prefix)
             if processed_file is not None:
                 result.append(processed_file)
 

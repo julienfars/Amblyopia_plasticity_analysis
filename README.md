@@ -78,16 +78,25 @@ the notebooks can be run and demonstrated without exposing real participant
 data (this study is subject to GDPR). See [`Data/README.md`](Data/README.md)
 for exactly how it was generated and what it can/can't be used for.
 
-Not every notebook is runnable end-to-end with the included data.
-`analysis_behavioural.ipynb`, `analysis_behavioural_familiarisation.ipynb`, and
-`analysis_VR_training.ipynb` work out of the box against
-`Data/Refined`/`Data/Controls/Refined`. `process_data.ipynb`, `analysis_mrs.ipynb`,
-and `analysis_qc.ipynb` additionally expect raw per-subject and MRS files
-(`Data/Raw`, `mrs_results_main.xlsx`, `combined_*.csv`, ...) that are derived from
-real neuroimaging/clinical data and are **not included**. `side_figures.ipynb`'s
-stimulus/schematic figures are self-contained; its brain-mask overlay figures need
-external MRI atlas files (see the `<path-to-external-data>` placeholders in that
-notebook).
+### What runs with the included data
+
+Some notebooks need raw per-subject or MRS files. Those files come from real
+clinical/neuroimaging data and are **not included**, so the cells that read them
+fail with a `FileNotFoundError` (and later cells that depend on them fail with a
+`NameError`). This is expected and is not a setup problem.
+
+| Notebook | With the included data | Missing inputs |
+|---|---|---|
+| `analysis_behavioural_familiarisation.ipynb` | ✅ Runs fully | — |
+| `analysis_behavioural.ipynb` | ⚠️ Mostly runs; the cut-off vs. GABA correlation cells fail | `Data/Refined/mrs_results_main.xlsx` |
+| `analysis_VR_training.ipynb` | ⚠️ Only the cells that read the refined `VR_imp2.xlsx` / `VR_imp_con2.xlsx` run | raw VR session files in `Data/Raw/`, `Training_data_con.csv` |
+| `side_figures.ipynb` | ⚠️ Stimulus and schematic figures run; brain-mask overlays fail | MRI atlas/mask files (`<path-to-external-data>` placeholders) |
+| `analysis_mrs.ipynb` | ❌ Not runnable | `Data/Refined/mrs_results_main.xlsx` |
+| `analysis_qc.ipynb` | ❌ Not runnable | `Data/Raw/combined_qc_*.csv` |
+| `process_data.ipynb` | ❌ Not runnable | raw per-subject behavioural data in `Data/Raw/` |
+
+Figures are written to `Data/Plots/`. The folder is created automatically on
+first import and is git-ignored.
 
 ## Setup
 

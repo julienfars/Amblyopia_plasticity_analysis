@@ -1,6 +1,8 @@
 # plot_utils.py
 """Shared validation and save/show helpers used by BV_processing, MRS_processing, and VR_processing."""
 
+import os
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -19,6 +21,7 @@ def check_dataframe(df, required_columns, df_name="Input", allow_empty=True):
 def save_or_show(save_path=None, dpi=None, close_after_save=True):
     """Save the current matplotlib figure to `save_path`, or show it if no path is given."""
     if save_path:
+        os.makedirs(os.path.dirname(os.path.abspath(save_path)), exist_ok=True)
         kwargs = {"bbox_inches": "tight"}
         if dpi is not None:
             kwargs["dpi"] = dpi

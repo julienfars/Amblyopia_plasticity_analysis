@@ -12,7 +12,7 @@ scientific interpretation.
 
 ```
 Data/Refined/
-  bv_1_results_trials.xlsx        patient group, trial-level data (fake IDs 101-121)
+  bv_1_results_trials.xlsx        patient group, trial-level data (IDs P01-P21)
   bv_2_results_thresholds.xlsx    patient group, per-condition thresholds
   bv_3_results_Diff.xlsx          patient group, pre/post training differences
   bv_4_results_ABC_diff.xlsx      patient group, area-under-curve differences
@@ -20,15 +20,24 @@ Data/Refined/
   VR_imp_con2.xlsx                VR training improvement, control group
 
 Data/Controls/Refined/
-  bv_1_results_trials.xlsx        control group, trial-level data (fake IDs 201-216)
+  bv_1_results_trials.xlsx        control group, trial-level data (IDs C01-C16)
   bv_2_results_thresholds.xlsx    control group, per-condition thresholds
   bv_3_results_Diff.xlsx          control group, pre/post training differences
   bv_4_results_ABC_diff.xlsx      control group, area-under-curve differences
   bv_4_results_ABC_diff_CONTROL.xlsx  duplicate, mirrors the patient folder's layout
 ```
 
-Fake participant IDs (101+ for patients, 201+ for controls) are chosen well
-outside the real ID ranges so they can't be confused with real participants.
+## Participant IDs
+
+Participant IDs are strings: `P01`, `P02`, ... for patients (amblyopia group)
+and `C01`, `C02`, ... for controls. This is the same format as the real data
+released on Zenodo, so the notebooks run unchanged on either. The synthetic IDs
+do **not** correspond to real participants: synthetic `P05` is random data, not
+participant 5.
+
+When processing raw data, `Analysis/BV_processing.py` builds these IDs from the
+numbers in raw file and folder names (`format_participant_id`, e.g. `sub-005` →
+`P05`).
 
 ## How it was generated
 
