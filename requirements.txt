@@ -1,18 +1,20 @@
-numpy
-pandas
-scipy
-scikit-learn
-statsmodels
-patsy
-pingouin
-matplotlib
-seaborn
-plotly
-wordcloud
-openpyxl
-Pillow
-reportlab
-nibabel
-nilearn
-ipython
-jupyter
+# Tested with Python 3.13 (conda env used to produce the figures).
+# Direct dependencies only, pinned to exact versions.
+
+numpy==2.5.2
+pandas==3.1.0
+scipy==1.18.0
+scikit-learn==1.9.1
+pingouin==0.6.1
+statsmodels==0.15.0   # used by pingouin
+patsy==1.0.3          # used by statsmodels
+matplotlib==3.11.1
+seaborn==0.13.2
+openpyxl==3.1.5       # reading the .xlsx data files
+Pillow==12.3.0
+ipython==9.17.1
+ipykernel==7.3.0
+
+# Only needed for the brain-mask overlay figures in side_figures.ipynb
+nibabel==5.4.2
+nilearn==0.14.1

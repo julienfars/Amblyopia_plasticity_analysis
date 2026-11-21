@@ -1,0 +1,59 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+type: software
+title: "Amblyopia Plasticity Analysis"
+abstract: >-
+  Analysis code for a study of visual plasticity in adult amblyopia,
+  combining psychophysics, dichoptic VR-based perceptual training and
+  MR spectroscopy (GABA+/Glx). Includes processing modules, analysis
+  notebooks and synthetic example data.
+authors:
+  - family-names: Fars
+    given-names: Julien
+    orcid: "https://orcid.org/0000-0001-7771-5029"
+    affiliation: University of Oxford
+repository-code: "https://github.com/julienfars/Amblyopia_plasticity_analysis"
+license:
+  - MIT
+  - CC-BY-4.0
+keywords:
+  - amblyopia
+  - visual plasticity
+  - psychophysics
+  - virtual reality
+  - MR spectroscopy
+  - GABA
+# Once archived on Zenodo, add the DOI here (use the concept DOI, which
+# always resolves to the latest version), plus version/date-released:
+# doi: 10.5281/zenodo.XXXXXXX
+# version: 1.0.0
+# date-released: YYYY-MM-DD
+references:
+  - type: article
+    status: in-preparation
+    title: >-
+      Dichoptic Training Boosts Binocular Vision and Reduces GABA in Adult Amblyopia
+    authors:
+      - family-names: Fars
+        given-names: Julien
+        orcid: "https://orcid.org/0000-0001-7771-5029"
+      - family-names: Starling
+        given-names: L.
+      - family-names: Zhang
+        given-names: J.
+      - family-names: Levi
+        given-names: D. M.
+      - family-names: Breach
+        given-names: L.
+      - family-names: Taylor
+        given-names: S.
+      - family-names: Quijada Leyton
+        given-names: P.
+      - family-names: Latham
+        given-names: W.
+      - family-names: Campbell
+        given-names: J.
+      - family-names: Tailor-Hamblin
+        given-names: V. K.
+      - family-names: Ip
+        given-names: I. B.
